@@ -14,7 +14,7 @@ export default function Footer() {
 
   return (
     <footer className="footer" id="contact">
-      <div className="footer-col">
+      <div className="footer-col footer-col-brand">
         <span className="footer-logo">
           nine<span className="footer-logo-accent">hawk</span>
         </span>
@@ -22,7 +22,7 @@ export default function Footer() {
         <span>TECHNOLOGY</span>
       </div>
 
-      <div className="footer-col">
+      <div className="footer-col footer-col-nav">
         <span className="footer-col-title">NAVIGATION</span>
         <a href="#" className="footer-link">HOME</a>
         <a href="#technology" className="footer-link">TECHNOLOGY</a>
@@ -30,7 +30,7 @@ export default function Footer() {
         <a href="#contact" className="footer-link">CONTACT</a>
       </div>
 
-      <div className="footer-col">
+      <div className="footer-col footer-col-product">
         <span className="footer-col-title">PRODUCT</span>
         <span>TRUESCAN</span>
         <span>MICRO-PATTERN SECURITY</span>
@@ -38,7 +38,7 @@ export default function Footer() {
         <span>PROVISIONAL PATENT</span>
       </div>
 
-      <div className="footer-col">
+      <div className="footer-col footer-col-contact">
         <span className="footer-col-title">CONTACT</span>
         <a
           ref={emailRef}
@@ -57,7 +57,6 @@ export default function Footer() {
       <div className="footer-bottom">
         <span>&copy; 2025 NINEHAWK. ALL RIGHTS RESERVED.</span>
         <span>TRUESCAN &mdash; PROOF OF ORIGINAL</span>
-        <span>DESIGNED WITH PRECISION</span>
       </div>
     </footer>
   )
