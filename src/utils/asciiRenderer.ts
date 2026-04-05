@@ -143,6 +143,11 @@ export class AsciiHeroRenderer {
     const mouseRadius = 150;
     const mouseForce = 80;
 
+    // Sweeping scan line position (oscillates top to bottom)
+    const scanSpeed = 0.4;
+    const scanY = ((Math.sin(this.time * scanSpeed) + 1) / 2) * this.height;
+    const scanWidth = 60; // height of the scan band
+
     for (const p of this.particles) {
       // Mouse interaction
       const dx = this.mouse.x - p.x;
@@ -184,23 +189,51 @@ export class AsciiHeroRenderer {
         alpha = p.opacity * (0.5 + 0.5 * Math.sin(this.time * p.speed + p.baseX * 0.01));
       }
 
+      // Scanner highlight: particles near the scan line glow brighter
+      const scanDist = Math.abs(p.y - scanY);
+      const inScanBand = scanDist < scanWidth;
+
       // Color
       if (p.isText) {
         const distFromMouse = Math.sqrt(
           (this.mouse.x - p.x) ** 2 + (this.mouse.y - p.y) ** 2
         );
-        if (distFromMouse < mouseRadius * 1.5) {
+        if (inScanBand) {
+          const scanAlpha = Math.min(1, alpha + (1 - scanDist / scanWidth) * 0.6);
+          this.ctx.fillStyle = `rgba(0, 255, 65, ${scanAlpha})`;
+        } else if (distFromMouse < mouseRadius * 1.5) {
           this.ctx.fillStyle = `rgba(0, 255, 65, ${alpha})`;
         } else {
           this.ctx.fillStyle = `rgba(220, 220, 220, ${alpha})`;
         }
       } else {
-        this.ctx.fillStyle = `rgba(0, 255, 65, ${alpha * 0.4})`;
+        if (inScanBand) {
+          const scanAlpha = alpha * 0.4 + (1 - scanDist / scanWidth) * 0.3;
+          this.ctx.fillStyle = `rgba(0, 255, 65, ${scanAlpha})`;
+        } else {
+          this.ctx.fillStyle = `rgba(0, 255, 65, ${alpha * 0.4})`;
+        }
       }
 
       this.ctx.font = `${this.fontSize}px 'JetBrains Mono', monospace`;
       this.ctx.fillText(p.char, p.x, p.y);
     }
+
+    // Draw the scan line itself
+    const gradient = this.ctx.createLinearGradient(0, scanY - 2, 0, scanY + 2);
+    gradient.addColorStop(0, 'rgba(0, 255, 65, 0)');
+    gradient.addColorStop(0.5, 'rgba(0, 255, 65, 0.4)');
+    gradient.addColorStop(1, 'rgba(0, 255, 65, 0)');
+    this.ctx.fillStyle = gradient;
+    this.ctx.fillRect(0, scanY - 2, this.width, 4);
+
+    // Scan line glow
+    const glowGradient = this.ctx.createLinearGradient(0, scanY - 30, 0, scanY + 30);
+    glowGradient.addColorStop(0, 'rgba(0, 255, 65, 0)');
+    glowGradient.addColorStop(0.5, 'rgba(0, 255, 65, 0.06)');
+    glowGradient.addColorStop(1, 'rgba(0, 255, 65, 0)');
+    this.ctx.fillStyle = glowGradient;
+    this.ctx.fillRect(0, scanY - 30, this.width, 60);
   };
 
   destroy() {

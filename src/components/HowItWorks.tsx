@@ -1,95 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-
-const styles: Record<string, React.CSSProperties> = {
-  section: {
-    padding: '120px 40px',
-    position: 'relative',
-    borderBottom: '1px solid var(--border)',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '80px',
-    paddingBottom: '20px',
-    borderBottom: '1px solid var(--border)',
-  },
-  label: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text-dim)',
-    letterSpacing: '0.15em',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-  },
-  dot: {
-    width: '6px',
-    height: '6px',
-    background: 'var(--accent)',
-    display: 'inline-block',
-  },
-  number: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '14px',
-    color: 'var(--text-dim)',
-  },
-  right: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text-dim)',
-    letterSpacing: '0.15em',
-  },
-  bigHeading: {
-    fontFamily: 'var(--font-display)',
-    fontSize: 'clamp(32px, 6vw, 72px)',
-    fontWeight: 800,
-    color: 'var(--text-bright)',
-    lineHeight: 1.05,
-    letterSpacing: '-0.03em',
-    marginBottom: '100px',
-  },
-  grid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '0',
-  },
-  item: {
-    padding: '40px 30px 40px 0',
-    borderTop: '1px solid var(--border)',
-    position: 'relative' as const,
-  },
-  itemNumber: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '10px',
-    color: 'var(--text-dim)',
-    letterSpacing: '0.2em',
-    marginBottom: '24px',
-    display: 'block',
-  },
-  itemTitle: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '18px',
-    fontWeight: 700,
-    color: 'var(--text-bright)',
-    marginBottom: '20px',
-    letterSpacing: '0.02em',
-  },
-  itemList: {
-    listStyle: 'none',
-    padding: 0,
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '8px',
-  },
-  itemListItem: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text)',
-    letterSpacing: '0.08em',
-    lineHeight: 1.6,
-  },
-}
+import './styles.css'
 
 const features = [
   {
@@ -152,20 +62,14 @@ function FeatureItem({ feature, index }: { feature: typeof features[0]; index: n
   return (
     <div
       ref={ref}
-      style={{
-        ...styles.item,
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(30px)',
-        transition: `opacity 0.6s ease ${index * 0.15}s, transform 0.6s ease ${index * 0.15}s`,
-      }}
+      className={`hiw-item ${visible ? 'visible' : 'hidden'}`}
+      style={{ transitionDelay: `${index * 0.15}s` }}
     >
-      <span style={styles.itemNumber}>{feature.num}</span>
-      <h3 style={styles.itemTitle}>{feature.title}</h3>
-      <ul style={styles.itemList}>
+      <span className="hiw-item-num">{feature.num}</span>
+      <h3 className="hiw-item-title">{feature.title}</h3>
+      <ul className="hiw-item-list">
         {feature.items.map((item) => (
-          <li key={item} style={styles.itemListItem}>
-            {item}
-          </li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
     </div>
@@ -174,23 +78,23 @@ function FeatureItem({ feature, index }: { feature: typeof features[0]; index: n
 
 export default function HowItWorks() {
   return (
-    <section style={styles.section}>
-      <div style={styles.header}>
-        <span style={styles.label}>
-          <span style={styles.dot} />
+    <section className="section">
+      <div className="section-header">
+        <span className="section-label">
+          <span className="section-dot" />
           HOW IT WORKS
         </span>
-        <span style={styles.number}>03</span>
-        <span style={styles.right}>FROM PATTERN TO PROOF</span>
+        <span className="section-number">04</span>
+        <span className="section-right">FROM PATTERN TO PROOF</span>
       </div>
 
-      <h2 style={styles.bigHeading}>
+      <h2 className="hiw-heading">
         WE PRINT. WE SCAN. WE VERIFY.<br />
         AUTHENTICATION BUILT INTO<br />
         THE PACKAGING.
       </h2>
 
-      <div style={styles.grid}>
+      <div className="hiw-grid">
         {features.map((feature, i) => (
           <FeatureItem key={feature.title} feature={feature} index={i} />
         ))}

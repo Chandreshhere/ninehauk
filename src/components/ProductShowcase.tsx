@@ -1,118 +1,6 @@
 import { useEffect, useRef } from 'react'
+import './styles.css'
 
-const styles: Record<string, React.CSSProperties> = {
-  section: {
-    padding: '120px 40px',
-    position: 'relative',
-    borderBottom: '1px solid var(--border)',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: '80px',
-    paddingBottom: '20px',
-    borderBottom: '1px solid var(--border)',
-  },
-  label: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text-dim)',
-    letterSpacing: '0.15em',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-  },
-  dot: {
-    width: '6px',
-    height: '6px',
-    background: 'var(--accent)',
-    display: 'inline-block',
-  },
-  number: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '14px',
-    color: 'var(--text-dim)',
-  },
-  right: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '11px',
-    color: 'var(--text-dim)',
-    letterSpacing: '0.15em',
-    textAlign: 'right' as const,
-  },
-  showcase: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '60px',
-    alignItems: 'center',
-  },
-  visual: {
-    position: 'relative' as const,
-    aspectRatio: '16/10',
-    background: 'var(--bg-light)',
-    border: '1px solid var(--border)',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  canvasContainer: {
-    width: '100%',
-    height: '100%',
-  },
-  info: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '24px',
-  },
-  title: {
-    fontFamily: 'var(--font-display)',
-    fontSize: 'clamp(28px, 4vw, 48px)',
-    fontWeight: 700,
-    color: 'var(--text-bright)',
-    lineHeight: 1.1,
-    letterSpacing: '-0.02em',
-  },
-  desc: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '12px',
-    lineHeight: 1.8,
-    color: 'var(--text)',
-    maxWidth: '500px',
-    letterSpacing: '0.06em',
-  },
-  stats: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '20px',
-    marginTop: '20px',
-  },
-  stat: {
-    borderTop: '1px solid var(--border)',
-    paddingTop: '16px',
-  },
-  statValue: {
-    fontFamily: 'var(--font-display)',
-    fontSize: '28px',
-    fontWeight: 700,
-    color: 'var(--accent)',
-    marginBottom: '4px',
-  },
-  statLabel: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '10px',
-    color: 'var(--text-dim)',
-    letterSpacing: '0.15em',
-  },
-  counter: {
-    fontFamily: 'var(--font-mono)',
-    fontSize: '14px',
-    color: 'var(--text-dim)',
-  },
-}
-
-// ASCII pattern animation canvas
 function PatternCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -155,7 +43,6 @@ function PatternCanvas() {
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
 
-      // Center pattern region
       const cx = cols / 2
       const cy = rows / 2
       const patternRadius = Math.min(cols, rows) * 0.3
@@ -192,7 +79,7 @@ function PatternCanvas() {
         }
       }
 
-      // Crosshair at center
+      // Crosshair
       ctx.strokeStyle = 'rgba(0, 255, 65, 0.3)'
       ctx.lineWidth = 1
       ctx.beginPath()
@@ -205,24 +92,20 @@ function PatternCanvas() {
       // Corner brackets
       const bLen = 20
       ctx.strokeStyle = 'rgba(0, 255, 65, 0.4)'
-      // top-left
       ctx.beginPath()
       ctx.moveTo(20, 20 + bLen); ctx.lineTo(20, 20); ctx.lineTo(20 + bLen, 20)
       ctx.stroke()
-      // top-right
       ctx.beginPath()
       ctx.moveTo(w - 20 - bLen, 20); ctx.lineTo(w - 20, 20); ctx.lineTo(w - 20, 20 + bLen)
       ctx.stroke()
-      // bottom-left
       ctx.beginPath()
       ctx.moveTo(20, h - 20 - bLen); ctx.lineTo(20, h - 20); ctx.lineTo(20 + bLen, h - 20)
       ctx.stroke()
-      // bottom-right
       ctx.beginPath()
       ctx.moveTo(w - 20 - bLen, h - 20); ctx.lineTo(w - 20, h - 20); ctx.lineTo(w - 20, h - 20 - bLen)
       ctx.stroke()
 
-      // Scan text
+      // HUD text
       ctx.fillStyle = 'rgba(0, 255, 65, 0.5)'
       ctx.font = `10px 'JetBrains Mono', monospace`
       ctx.textAlign = 'left'
@@ -244,52 +127,50 @@ function PatternCanvas() {
 
 export default function ProductShowcase() {
   return (
-    <section style={styles.section} id="technology">
-      <div style={styles.header}>
-        <span style={styles.label}>
-          <span style={styles.dot} />
+    <section className="section" id="technology">
+      <div className="section-header">
+        <span className="section-label">
+          <span className="section-dot" />
           THE TECHNOLOGY
         </span>
-        <span style={styles.counter}>01</span>
-        <span style={styles.right}>TRUESCAN MICRO-PATTERN</span>
+        <span className="section-number">01</span>
+        <span className="section-right">TRUESCAN MICRO-PATTERN</span>
       </div>
 
-      <div style={styles.showcase}>
-        <div style={styles.visual}>
-          <div style={styles.canvasContainer}>
-            <PatternCanvas />
-          </div>
+      <div className="showcase-grid">
+        <div className="showcase-visual">
+          <PatternCanvas />
         </div>
 
-        <div style={styles.info}>
-          <h2 style={styles.title}>
+        <div className="showcase-info">
+          <h2 className="showcase-title">
             INVISIBLE<br />
             SECURITY.<br />
             VISIBLE<br />
             TRUST.
           </h2>
-          <p style={styles.desc}>
+          <p className="showcase-desc">
             A VERY SMALL PRINTED PATTERN ADDED DIRECTLY TO ANY PRODUCT
             PACKAGING. IT APPEARS LIKE A NORMAL PART OF THE DESIGN, BUT
             CONTAINS HIDDEN SECURITY FEATURES THAT CANNOT BE DUPLICATED
             OR REPRINTED.
           </p>
-          <div style={styles.stats}>
-            <div style={styles.stat}>
-              <div style={styles.statValue}>100%</div>
-              <div style={styles.statLabel}>SMARTPHONE VERIFIED</div>
+          <div className="showcase-stats">
+            <div className="stat">
+              <div className="stat-value">100%</div>
+              <div className="stat-label">SMARTPHONE VERIFIED</div>
             </div>
-            <div style={styles.stat}>
-              <div style={styles.statValue}>0</div>
-              <div style={styles.statLabel}>SPECIAL DEVICES NEEDED</div>
+            <div className="stat">
+              <div className="stat-value">0</div>
+              <div className="stat-label">SPECIAL DEVICES NEEDED</div>
             </div>
-            <div style={styles.stat}>
-              <div style={styles.statValue}>P.P.</div>
-              <div style={styles.statLabel}>PROVISIONAL PATENT</div>
+            <div className="stat">
+              <div className="stat-value">P.P.</div>
+              <div className="stat-label">PROVISIONAL PATENT</div>
             </div>
-            <div style={styles.stat}>
-              <div style={styles.statValue}>POC</div>
-              <div style={styles.statLabel}>PROOF OF CONCEPT READY</div>
+            <div className="stat">
+              <div className="stat-value">POC</div>
+              <div className="stat-label">PROOF OF CONCEPT READY</div>
             </div>
           </div>
         </div>
